@@ -9,16 +9,20 @@ return {
     opts = {
       -- Make sure to use the names found in `:Mason`
       ensure_installed = {
-        -- install language servers
+        -- [[Lua]]
         "lua-language-server",
-
-        -- install formatters
         "stylua",
 
-        -- install debuggers
+        -- [[C/C++]]
+        "clangd",
+        "clang-format",
+        "codelldb",
+
+        -- [[Python]]
+        "ruff",
         "debugpy",
 
-        -- install any other package
+        -- [[cli]]
         "tree-sitter-cli",
       },
     },

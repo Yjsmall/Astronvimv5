@@ -34,7 +34,6 @@ return {
     -- enable servers that you already have installed without mason
     servers = {
       -- "pyright"
-      "clangd",
     },
     -- customize language server configuration options passed to `lspconfig`
     ---@diagnostic disable: missing-fields
@@ -42,6 +41,33 @@ return {
       clangd = {
         cmd = { "clangd", "--enable-config", "--background-index" },
         capabilities = { offsetEncoding = "utf-8" },
+        on_attach = function(client, bufnr)
+          local filetype = vim.api.nvim_get_option_value("filetype", { buf = bufnr })
+          local fallback_flags = {}
+
+          if filetype == "c" then
+            fallback_flags = { "--std=c99" }
+          elseif
+            filetype == "cpp"
+            or filetype == "hpp"
+            or filetype == "hxx"
+            or filetype == "cxx"
+            or filetype == "cc"
+          then
+            fallback_flags = { "--std=c++23" }
+          end
+
+          -- Set the compile flags for clangd
+          if #fallback_flags > 0 then
+            client.config.settings = {
+              clangd = {
+                fallbackFlags = fallback_flags,
+              },
+            }
+            -- Notify clangd about the configuration change
+            client.notify("workspace/didChangeConfiguration", { settings = client.config.settings })
+          end
+        end,
       },
     },
     -- customize how language servers are attached
