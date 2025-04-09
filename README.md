@@ -13,6 +13,9 @@ mv ~/.config/nvim ~/.config/nvim.bak
 mv ~/.local/share/nvim ~/.local/share/nvim.bak
 mv ~/.local/state/nvim ~/.local/state/nvim.bak
 mv ~/.cache/nvim ~/.cache/nvim.bak
+
+rm -rf .local/share/nvim .local/state/nvim
+
 ```
 
 #### Create a new user repository from this template
